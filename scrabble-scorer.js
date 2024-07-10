@@ -11,10 +11,10 @@ const oldPointStructure = {
   8: ['J', 'X'],
   10: ['Q', 'Z']
 };
-
+let letterPoints;
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
-	let letterPoints = "";
+	letterPoints = "";
  
 	for (let i = 0; i < word.length; i++) {
  
@@ -31,28 +31,92 @@ function oldScrabbleScorer(word) {
 
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
-
+let playerWord;
 function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
+   playerWord = input.question("Let's play some scrabble! Enter a word: ");
+   return playerWord;
 };
 
 let newPointStructure;
 
-let simpleScorer;
+function simpleScorer(word){
+   letterPoints = word.length;
+   return letterPoints;
+}
 
-let vowelBonusScorer;
+
+function vowelBonusScorer(word) {
+
+   word = word.toUpperCase();
+
+   for (i = 0; i < word.length; i++) {
+      if (word[i] === 'A' || word[i] === 'E' || word[i] === 'I' || word[i] === 'O' || word[i] === 'U' ) {
+         letterPoints = letterPoints + 3;
+      } else {
+         letterPoints++;
+      }
+   }
+
+   return letterPoints;
+};
+
+
 
 let scrabbleScorer;
 
-const scoringAlgorithms = [];
+const scoringAlgorithms = [
+   {
+      name: 'Simple Score',
+      description: 'One point per character',
+      scoringFunct: simpleScorer
+   },
+   {
+      name: 'Vowel Bonus',
+      description: 'Vowels are worth 3 points',
+      scoringFunct: vowelBonusScorer
+   },
+   {
+      name: 'Scrabble',
+      description: 'Uses scrabble point system',
+      scoringFunct: oldScrabbleScorer
+   }
+];
 
-function scorerPrompt() {}
+function scorerPrompt() {
+   let playerChoice;
+   console.log(`Which scoring algorithm would you like to use?
+
+   0 - Simple: One point per character
+   1 - Vowel Bonus: Vowels are worth 3 points
+   2 - Scrabble: Uses scrabble point system`);
+
+   playerChoice = input.question('Enter the number of your algorithm choice here: ');
+   playerChoice = Number(playerChoice);
+    
+   if (playerChoice === 0){
+      scoringAlgorithms[0].scoringFunct(playerWord);
+   }
+   else if (playerChoice === 1){
+      scoringAlgorithms[1].scoringFunct(playerWord);
+   }
+   else if (playerChoice === 2){
+      scoringAlgorithms[2].scoringFunct(playerWord);
+
+   }
+   else {
+      console.log(`Input not valid. Try again.`);
+   }
+
+   console.log(`Your score is ${letterPoints}.`);
+
+   };
+
 
 function transform() {};
 
 function runProgram() {
    initialPrompt();
-   
+   scorerPrompt();
 }
 
 // Don't write any code below this line //
