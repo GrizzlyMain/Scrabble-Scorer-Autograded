@@ -8,9 +8,10 @@ const oldPointStructure = {
   3: ['B', 'C', 'M', 'P'],
   4: ['F', 'H', 'V', 'W', 'Y'],
   5: ['K'],
-  8: ['J', 'X'],
+  8: ['J', 'X'], 
   10: ['Q', 'Z']
-};
+}
+
 let letterPoints;
 function oldScrabbleScorer(word) {
 	word = word.toUpperCase();
@@ -37,7 +38,7 @@ function initialPrompt() {
    return playerWord;
 };
 
-let newPointStructure;
+let newPointStructure = transform(oldPointStructure);
 
 function simpleScorer(word){
    letterPoints = word.length;
@@ -48,6 +49,7 @@ function simpleScorer(word){
 function vowelBonusScorer(word) {
 
    word = word.toUpperCase();
+   letterPoints = 0;
 
    for (i = 0; i < word.length; i++) {
       if (word[i] === 'A' || word[i] === 'E' || word[i] === 'I' || word[i] === 'O' || word[i] === 'U' ) {
@@ -62,7 +64,18 @@ function vowelBonusScorer(word) {
 
 
 
-let scrabbleScorer;
+function scrabbleScorer (word){
+   letterPoints = 0;
+   word = word.toLowerCase();
+   for (let i = 0; i < word.length; i++){
+         letterPoints = letterPoints + newPointStructure[word[i]]
+   
+       
+     }
+     return letterPoints;
+   }
+
+
 
 const scoringAlgorithms = [
    {
@@ -78,7 +91,7 @@ const scoringAlgorithms = [
    {
       name: 'Scrabble',
       description: 'Uses scrabble point system',
-      scoringFunct: oldScrabbleScorer
+      scoringFunct: scrabbleScorer
    }
 ];
 
@@ -112,7 +125,17 @@ function scorerPrompt() {
    };
 
 
-function transform() {};
+function transform(objScore){
+   let newObj = {};
+   for (let key in objScore){
+   let letters = objScore[key];
+      for(let i = 0; i < letters.length; i++){
+   newObj[letters[i].toLowerCase()] = Number(key);
+   }
+   }
+   return newObj;
+   };
+
 
 function runProgram() {
    initialPrompt();
