@@ -81,17 +81,17 @@ const scoringAlgorithms = [
    {
       name: 'Simple Score',
       description: 'One point per character',
-      scoringFunct: simpleScorer
+      scorerFunction: simpleScorer
    },
    {
       name: 'Vowel Bonus',
       description: 'Vowels are worth 3 points',
-      scoringFunct: vowelBonusScorer
+      scorerFunction: vowelBonusScorer
    },
    {
       name: 'Scrabble',
       description: 'Uses scrabble point system',
-      scoringFunct: scrabbleScorer
+      scorerFunction: scrabbleScorer
    }
 ];
 
@@ -107,13 +107,13 @@ function scorerPrompt() {
    playerChoice = Number(playerChoice);
     
    if (playerChoice === 0){
-      scoringAlgorithms[0].scoringFunct(playerWord);
+      scoringAlgorithms[0].scorerFunction(playerWord);
    }
    else if (playerChoice === 1){
-      scoringAlgorithms[1].scoringFunct(playerWord);
+      scoringAlgorithms[1].scorerFunction(playerWord);
    }
    else if (playerChoice === 2){
-      scoringAlgorithms[2].scoringFunct(playerWord);
+      scoringAlgorithms[2].scorerFunction(playerWord);
 
    }
    else {
